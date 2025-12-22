@@ -4,22 +4,22 @@ A compact and portable **weather station** built using an **ESP32-WROOM-32U** th
 
 ---
 
-## 🧭 Overview
+##  Overview
 
 The weather changes constantly — sunny one moment, raining the next.  
 This project helps track those changes accurately with a small, battery-powered, and display-equipped weather station.
 
 It integrates multiple sensors with the ESP32 to measure and display:
-- 🌡️ **Temperature & Humidity (DHT22)**
-- 💨 **Air Quality (MQ135)**
-- 🌫️ **Dust/Smoke Density (GP2Y1010AU0F)**
-- ☔ **Rain Prediction (based on humidity & temperature logic)**
+-  **Temperature & Humidity (DHT22)**
+-  **Air Quality (MQ135)**
+-  **Dust/Smoke Density (GP2Y1010AU0F)**
+-  **Rain Prediction (based on humidity & temperature logic)**
 
 All readings are updated live on the TFT display every few seconds.
 
 ---
 
-## 🧰 Components Required
+## Components Required
 
 | Component | Purpose |
 |------------|----------|
@@ -34,9 +34,9 @@ All readings are updated live on the TFT display every few seconds.
 
 ---
 
-## ⚙️ Hardware Connections
+##  Hardware Connections
 
-### 📺 TFT Display (ILI9341 SPI)
+###  TFT Display (ILI9341 SPI)
 
 | TFT Pin | ESP32 Pin | Function |
 |----------|------------|----------|
@@ -52,7 +52,7 @@ All readings are updated live on the TFT display every few seconds.
 
 ---
 
-### 🌡️ DHT22 (Temperature + Humidity)
+###  DHT22 (Temperature + Humidity)
 
 | Pin | ESP32 Pin | Notes |
 |-----|------------|-------|
@@ -62,7 +62,7 @@ All readings are updated live on the TFT display every few seconds.
 
 ---
 
-### 🌫️ GP2Y1010AU0F (Dust / Smoke Sensor)
+###  GP2Y1010AU0F (Dust / Smoke Sensor)
 
 | Pin | ESP32 Pin | Notes |
 |------|------------|-------|
@@ -75,7 +75,7 @@ All readings are updated live on the TFT display every few seconds.
 
 ---
 
-### 💨 MQ135 (Air Quality Sensor)
+###  MQ135 (Air Quality Sensor)
 
 | Pin | ESP32 Pin | Notes |
 |------|------------|-------|
@@ -86,19 +86,19 @@ All readings are updated live on the TFT display every few seconds.
 
 ---
 
-## 💻 Software Setup
+## Software Setup :
 
-### 1️⃣ Install Arduino IDE
+### 1️. Install Arduino IDE
 Download from [Arduino.cc](https://www.arduino.cc/en/software) and install.
 
-### 2️⃣ Add ESP32 Board Support
+### 2️. Add ESP32 Board Support
 In **File → Preferences**, paste this into “Additional Boards Manager URLs”: https://dl.espressif.com/dl/package_esp32_index.json
 
 Then go to **Tools → Board → Boards Manager**, search for “ESP32”, and install.
 
 Select **ESP32 Dev Module** under Tools → Board.
 
-### 3️⃣ Install Required Libraries
+### 3️. Install Required Libraries
 Go to **Sketch → Include Library → Manage Libraries**, install:
 - DHT sensor library (for DHT22)
 - Adafruit ILI9341
@@ -108,7 +108,7 @@ Go to **Sketch → Include Library → Manage Libraries**, install:
 
 ---
 
-## 📟 Complete Code
+##  Complete Code
 
 Save this as `WeatherStation.ino` inside a folder named `WeatherStation/`.
 
