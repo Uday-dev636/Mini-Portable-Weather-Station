@@ -1,241 +1,92 @@
-# 🌦️ Mini Portable Weather Station (ESP32)
+# Mini Portable Weather Station (ESP32)
 
-A compact and portable **weather station** built using an **ESP32-WROOM-32U** that measures **temperature, humidity, air quality, and dust density**, and even predicts **rain chances** — all displayed live on a **2.4” ILI9341 TFT screen**.
+## Introduction
 
----
+This project is a compact and portable weather monitoring system built using the ESP32-WROOM-32U. It measures environmental parameters such as temperature, humidity, air quality, and dust levels, and displays them in real time on a TFT screen.
 
-##  Overview
+It also includes a simple method to estimate rain probability based on temperature and humidity.
 
-The weather changes constantly — sunny one moment, raining the next.  
-This project helps track those changes accurately with a small, battery-powered, and display-equipped weather station.
-
-It integrates multiple sensors with the ESP32 to measure and display:
--  **Temperature & Humidity (DHT22)**
--  **Air Quality (MQ135)**
--  **Dust/Smoke Density (GP2Y1010AU0F)**
--  **Rain Prediction (based on humidity & temperature logic)**
-
-All readings are updated live on the TFT display every few seconds.
+This project helps in understanding embedded systems, sensor interfacing, and real-time data display.
 
 ---
 
-## Components Required
+## Objectives
 
-| Component | Purpose |
-|------------|----------|
-| **ESP32-WROOM-32U** | Main controller |
-| **2.4” TFT Display (ILI9341)** | Display readings |
-| **DHT22** | Temperature + Humidity |
-| **GP2Y1010AU0F** | Dust / Smoke sensor |
-| **MQ135** | Air quality sensor (CO₂, NH₃, etc.) |
-| **Resistors & Capacitors** | For stability |
-| **18650 Battery** | Power source |
-| **Jumper wires & Breadboard** | Connections |
+- Build a low-cost portable weather system  
+- Interface multiple sensors with ESP32  
+- Display real-time data on TFT screen  
+- Implement basic environmental analysis  
 
 ---
 
-##  Hardware Connections
+## Components Used
 
-###  TFT Display (ILI9341 SPI)
-
-| TFT Pin | ESP32 Pin | Function |
-|----------|------------|----------|
-| VCC | 3.3V | Power |
-| GND | GND | Ground |
-| CS | GPIO5 | Chip Select |
-| RESET | GPIO4 | Reset |
-| DC (A0) | GPIO2 | Data/Command |
-| SDI (MOSI) | GPIO23 | SPI Data |
-| SCK | GPIO18 | SPI Clock |
-| LED | 3.3V (through 100Ω resistor) | Backlight |
-| SDO (MISO) | GPIO19 | Optional |
+- ESP32-WROOM-32U  
+- 2.4 inch TFT Display (ILI9341)  
+- DHT22 Sensor  
+- MQ135 Gas Sensor  
+- GP2Y1010AU0F Dust Sensor  
+- 18650 Battery  
+- Resistors and Capacitors  
+- Breadboard and Jumper Wires  
 
 ---
 
-###  DHT22 (Temperature + Humidity)
+## Working Principle
 
-| Pin | ESP32 Pin | Notes |
-|-----|------------|-------|
-| VCC | 3.3V | Power |
-| DATA | GPIO15 | Data (with 10kΩ pull-up resistor) |
-| GND | GND | Ground |
+The ESP32 reads data from multiple sensors:
 
----
+- DHT22 provides temperature and humidity  
+- MQ135 gives air quality values  
+- Dust sensor measures smoke and particles  
 
-###  GP2Y1010AU0F (Dust / Smoke Sensor)
+The data is processed and displayed on the TFT screen.  
+The display updates every 3 seconds.
 
-| Pin | ESP32 Pin | Notes |
-|------|------------|-------|
-| VLED | 5V | LED Power |
-| LED-GND | GND | LED Ground |
-| LED | GPIO13 | LED Control (via 220Ω resistor) |
-| Vo | GPIO34 | Analog Output |
-| GND | GND | Common Ground |
-| VCC | 5V | Power |
+Rain probability is calculated based on simple conditions:
+- Higher humidity increases chance of rain  
+- Lower temperature increases probability further  
 
 ---
 
-###  MQ135 (Air Quality Sensor)
+## Hardware Connections
 
-| Pin | ESP32 Pin | Notes |
-|------|------------|-------|
-| VCC | 5V | Power |
-| GND | GND | Ground |
-| AOUT | GPIO35 | Analog Signal |
-| DOUT | — | Not Used |
+Refer to `PIN_DIAGRAM.md` for detailed pin connections.
 
 ---
 
-## Software Setup :
+## Software Requirements
 
-### 1️. Install Arduino IDE
-Download from [Arduino.cc](https://www.arduino.cc/en/software) and install.
+- Arduino IDE  
+- ESP32 Board Package  
 
-### 2️. Add ESP32 Board Support
-In **File → Preferences**, paste this into “Additional Boards Manager URLs”: https://dl.espressif.com/dl/package_esp32_index.json
+### Required Libraries
 
-Then go to **Tools → Board → Boards Manager**, search for “ESP32”, and install.
-
-Select **ESP32 Dev Module** under Tools → Board.
-
-### 3️. Install Required Libraries
-Go to **Sketch → Include Library → Manage Libraries**, install:
-- DHT sensor library (for DHT22)
-- Adafruit ILI9341
-- Adafruit GFX
-- MQ135 (or use analog readings)
-- GP2Y1010 (optional)
+- DHT sensor library  
+- Adafruit GFX  
+- Adafruit ILI9341  
 
 ---
 
-##  Complete Code
+## Installation Steps
 
-Save this as `WeatherStation.ino` inside a folder named `WeatherStation/`.
+1. Install Arduino IDE  
 
-```cpp
-#include <Adafruit_GFX.h>
-#include <Adafruit_ILI9341.h>
-#include "DHT.h"
+2. Add ESP32 board support:
+   File → Preferences → Additional Boards Manager URL:
+   https://dl.espressif.com/dl/package_esp32_index.json  
 
-// === Pin Configurations ===
-#define TFT_CS   5
-#define TFT_DC   2
-#define TFT_RST  4
-#define DHTPIN   15
-#define DHTTYPE  DHT22
-#define MQ135_PIN 34
+3. Install ESP32 from Boards Manager  
 
-// === GP2Y1010 Dust Sensor Pins ===
-#define DUST_LED 12
-#define DUST_ANALOG 35
+4. Install required libraries  
 
-// === Object Initialization ===
-Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_RST);
-DHT dht(DHTPIN, DHTTYPE);
+5. Open `WeatherStation.ino`  
 
-unsigned long lastUpdate = 0;
+6. Select board:
+   ESP32 Dev Module  
 
-void setup() {
-  Serial.begin(115200);
-  
-  // Initialize sensors
-  dht.begin();
-  pinMode(DUST_LED, OUTPUT);
-  digitalWrite(DUST_LED, LOW);
-  
-  tft.begin();
-  tft.setRotation(1);
-  tft.fillScreen(ILI9341_BLACK);
-  drawStaticUI();
-}
+7. Upload the code  
 
-void drawStaticUI() {
-  // Header - Centered
-  tft.setTextColor(ILI9341_WHITE);
-  tft.setTextSize(2);
-  tft.setCursor(35, 15);
-  tft.print("Weather Station");
-  
-  // Divider line
-  tft.drawLine(0, 40, 320, 40, ILI9341_WHITE);
-  
-  // Labels
-  tft.setTextSize(1.5);
-  tft.setTextColor(ILI9341_WHITE);
-  tft.setCursor(30, 55); tft.print("Temperature:");
-  tft.setCursor(30, 75); tft.print("Humidity:");
-  tft.setCursor(30, 95); tft.print("Air Quality:");
-  tft.setCursor(30, 115); tft.print("Dust:");
-  tft.setCursor(30, 135); tft.print("Rain:");
-}
+---
 
-float readDustDensity() {
-  float voMeasured = 0;
-  for (int i = 0; i < 10; i++) {
-    digitalWrite(DUST_LED, LOW);
-    delayMicroseconds(280);
-    voMeasured += analogRead(DUST_ANALOG);
-    delayMicroseconds(40);
-    digitalWrite(DUST_LED, HIGH);
-    delayMicroseconds(9680);
-    delay(50);
-  }
-  voMeasured /= 10;
-  float voltage = voMeasured * (3.3 / 4095.0);
-  float dustDensity = (voltage - 0.6) / 0.005;
-  if (dustDensity < 0) dustDensity = 0;
-  return dustDensity;
-}
-
-int calculateRainChance(float temp, float hum) {
-  int chance = 0;
-  if (hum > 80) chance = 70;
-  else if (hum > 65) chance = 40;
-  else chance = 20;
-  if (temp < 20) chance += 20;
-  return constrain(chance, 0, 100);
-}
-
-void displayData(float temp, float hum, float air, float dust, int rain) {
-  tft.fillRect(120, 55, 150, 90, ILI9341_BLACK);
-  tft.setTextSize(1.5);
-
-  tft.setTextColor(ILI9341_YELLOW); tft.setCursor(120, 55);
-  tft.print(temp, 1); tft.print("C");
-
-  tft.setTextColor(ILI9341_CYAN); tft.setCursor(120, 75);
-  tft.print(hum, 1); tft.print("%");
-
-  tft.setTextColor(ILI9341_GREEN); tft.setCursor(120, 95);
-  tft.print(air, 0); tft.print("ppm");
-
-  tft.setTextColor(ILI9341_ORANGE); tft.setCursor(120, 115);
-  tft.print(dust, 0); tft.print("ug");
-
-  tft.setTextColor(ILI9341_MAGENTA); tft.setCursor(120, 135);
-  tft.print(rain); tft.print("%");
-}
-
-void loop() {
-  if (millis() - lastUpdate > 3000) {
-    lastUpdate = millis();
-
-    float temperature = dht.readTemperature();
-    float humidity = dht.readHumidity();
-    if (isnan(temperature) || isnan(humidity)) {
-      temperature = 0; humidity = 0;
-    }
-
-    int airQuality = analogRead(MQ135_PIN);
-    airQuality = map(airQuality, 0, 4095, 0, 500);
-
-    float dustDensity = readDustDensity();
-    int rainChance = calculateRainChance(temperature, humidity);
-
-    displayData(temperature, humidity, airQuality, dustDensity, rainChance);
-
-    Serial.printf("Temp: %.1fC | Hum: %.1f%% | Air: %dppm | Dust: %.0fug | Rain: %d%%\n",
-                  temperature, humidity, airQuality, dustDensity, rainChance);
-  }
-}
-
+## Project Structure
