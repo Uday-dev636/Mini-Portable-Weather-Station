@@ -39,7 +39,3 @@ Data is also printed in Serial Monitor.
 This project shows how ESP32 can be used with multiple sensors to build a real-time weather monitoring system. It is a good base for further IoT development.
 
 ---
-
-## Author
-
-Uday
