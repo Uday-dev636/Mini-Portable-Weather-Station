@@ -88,5 +88,3 @@ Refer to `PIN_DIAGRAM.md` for detailed pin connections.
 7. Upload the code  
 
 ---
-
-## Project Structure
